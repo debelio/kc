@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.1] - 2025-10-07
+
+### Changed
+- Added CHANGELOG format
+
 ## [0.1] - 2025-10-07
 
 ### Added
@@ -13,4 +18,5 @@
 - Refactored code into modular structure (cmd/, internal/)
 - Improved error messages with context suggestions
 
+[0.1.1]: https://github.com/debelio/kc/releases/tag/v0.1.1
 [0.1]: https://github.com/debelio/kc/releases/tag/v0.1
