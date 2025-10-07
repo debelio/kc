@@ -9,8 +9,6 @@ INSTALL_DIR=/usr/local/bin
 GOCMD=go
 GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
-GOTEST=$(GOCMD) test
-GOGET=$(GOCMD) get
 GOMOD=$(GOCMD) mod
 
 # Build the project
@@ -44,18 +42,6 @@ uninstall:
 run: build
 	@$(BUILD_DIR)/$(BINARY_NAME)
 
-# Download dependencies
-deps:
-	@echo "Downloading dependencies..."
-	$(GOMOD) download
-	$(GOMOD) tidy
-	@echo "Dependencies downloaded"
-
-# Run tests
-test:
-	@echo "Running tests..."
-	$(GOTEST) -v ./...
-
 # Show help
 help:
 	@echo "Available targets:"
@@ -64,8 +50,6 @@ help:
 	@echo "  install    - Install binary to $(INSTALL_DIR)"
 	@echo "  uninstall  - Remove binary from $(INSTALL_DIR)"
 	@echo "  run        - Build and run the application"
-	@echo "  deps       - Download and tidy dependencies"
-	@echo "  test       - Run tests"
 	@echo "  help       - Show this help message"
 
 # Default target
