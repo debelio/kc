@@ -1,0 +1,6 @@
+# Devbox cache
+.devbox/
+
+# Binaries
+bin/
+kc
