@@ -1,6 +1,6 @@
 # kc - Kubernetes Context Switcher
 
-An interactive command-line tool for switching between Kubernetes contexts.
+An interactive command-line tool for switching between Kubernetes contexts and namespaces.
 
 ![Devbox](https://img.shields.io/badge/devbox-jetpack.io-blueviolet)
 [![Go Version](https://img.shields.io/badge/Go-1.19+-00ADD8?style=flat&logo=go)](https://go.dev/)
@@ -74,6 +74,44 @@ The tool reads from your kubeconfig:
 # Use custom kubeconfig
 export KUBECONFIG=/path/to/your/kubeconfig
 kc
+```
+
+## 🚀 Usage
+
+### Interactive Mode
+
+Simply run `kc` without arguments to enter interactive mode:
+
+```bash
+kc
+```
+
+### Non-Interactive Mode
+
+You can also pass arguments directly for quick context/namespace switching:
+
+```bash
+# Switch to a context
+kc prod-cluster
+
+# Switch to a context and set namespace
+kc prod-cluster my-namespace
+
+# Using flags (alternative syntax)
+kc -c prod-cluster
+kc -c prod-cluster -n my-namespace
+
+# Partial context name matching
+kc prod        # Matches "prod-cluster" if it's the only match
+```
+
+### Command-Line Options
+
+```
+-c string
+    Context name to switch to
+-n string
+    Namespace to set (requires -c)
 ```
 
 ## 🔧 Development

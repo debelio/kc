@@ -1,38 +1,24 @@
-# Makefile for kc - Kubernetes Context Switcher
+.PHONY: build clean install uninstall run help
 
-# Binary name
+# Variables
 BINARY_NAME=kc
-
-# Build directory
 BUILD_DIR=bin
+INSTALL_DIR=/usr/local/bin
 
 # Go parameters
 GOCMD=go
 GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
+GOTEST=$(GOCMD) test
+GOGET=$(GOCMD) get
+GOMOD=$(GOCMD) mod
 
-# Build flags for smaller binary
-LDFLAGS=-ldflags="-s -w"
-
-.PHONY: all build clean install uninstall help
-
-# Default target
-all: clean build
-
-# Build the binary
+# Build the project
 build:
 	@echo "Building $(BINARY_NAME)..."
 	@mkdir -p $(BUILD_DIR)
-	$(GOBUILD) -o $(BUILD_DIR)/$(BINARY_NAME) main.go
+	$(GOBUILD) -o $(BUILD_DIR)/$(BINARY_NAME) ./cmd/kc
 	@echo "Build complete: $(BUILD_DIR)/$(BINARY_NAME)"
-
-# Build with size optimization
-build-small:
-	@echo "Building optimized $(BINARY_NAME)..."
-	@mkdir -p $(BUILD_DIR)
-	$(GOBUILD) $(LDFLAGS) -o $(BUILD_DIR)/$(BINARY_NAME) main.go
-	@echo "Optimized build complete: $(BUILD_DIR)/$(BINARY_NAME)"
-	@ls -lh $(BUILD_DIR)/$(BINARY_NAME)
 
 # Clean build artifacts
 clean:
@@ -41,30 +27,46 @@ clean:
 	@rm -rf $(BUILD_DIR)
 	@echo "Clean complete"
 
-# Install to /usr/local/bin
-install: build-small
-	@echo "Installing $(BINARY_NAME) to /usr/local/bin..."
-	@sudo cp $(BUILD_DIR)/$(BINARY_NAME) /usr/local/bin/
-	@sudo chmod +x /usr/local/bin/$(BINARY_NAME)
+# Install the binary to system
+install: build
+	@echo "Installing $(BINARY_NAME) to $(INSTALL_DIR)..."
+	@sudo cp $(BUILD_DIR)/$(BINARY_NAME) $(INSTALL_DIR)/
+	@sudo chmod +x $(INSTALL_DIR)/$(BINARY_NAME)
 	@echo "Installation complete"
 
-# Uninstall from /usr/local/bin
+# Uninstall the binary from system
 uninstall:
 	@echo "Uninstalling $(BINARY_NAME)..."
-	@sudo rm -f /usr/local/bin/$(BINARY_NAME)
+	@sudo rm -f $(INSTALL_DIR)/$(BINARY_NAME)
 	@echo "Uninstall complete"
 
 # Run the application
 run: build
 	@$(BUILD_DIR)/$(BINARY_NAME)
 
+# Download dependencies
+deps:
+	@echo "Downloading dependencies..."
+	$(GOMOD) download
+	$(GOMOD) tidy
+	@echo "Dependencies downloaded"
+
+# Run tests
+test:
+	@echo "Running tests..."
+	$(GOTEST) -v ./...
+
 # Show help
 help:
 	@echo "Available targets:"
-	@echo "  make build        - Build the binary"
-	@echo "  make build-small  - Build optimized binary (smaller size)"
-	@echo "  make clean        - Remove build artifacts"
-	@echo "  make install      - Install to /usr/local/bin"
-	@echo "  make uninstall    - Remove from /usr/local/bin"
-	@echo "  make run          - Build and run the application"
-	@echo "  make all          - Clean and build (default)"
+	@echo "  build      - Build the binary"
+	@echo "  clean      - Remove build artifacts"
+	@echo "  install    - Install binary to $(INSTALL_DIR)"
+	@echo "  uninstall  - Remove binary from $(INSTALL_DIR)"
+	@echo "  run        - Build and run the application"
+	@echo "  deps       - Download and tidy dependencies"
+	@echo "  test       - Run tests"
+	@echo "  help       - Show this help message"
+
+# Default target
+.DEFAULT_GOAL := build
