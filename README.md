@@ -36,6 +36,37 @@ kc
 
 ## 📦 Installation
 
+### Using Pre-built Binaries (Recommended)
+
+Download the latest release for your platform:
+
+**Linux (AMD64)**:
+```bash
+curl -LO https://github.com/debelio/kc/releases/latest/download/kc-linux-amd64
+chmod +x kc-linux-amd64
+sudo mv kc-linux-amd64 /usr/local/bin/kc
+```
+**Linux (ARM64)**:
+```bash
+curl -LO https://github.com/debelio/kc/releases/latest/download/kc-linux-arm64
+chmod +x kc-darwin-arm64
+sudo mv kc-darwin-arm64 /usr/local/bin/kc
+```
+
+**macOS (Apple Silicon)**:
+```bash
+curl -LO https://github.com/debelio/kc/releases/latest/download/kc-darwin-arm64
+chmod +x kc-darwin-arm64
+sudo mv kc-darwin-arm64 /usr/local/bin/kc
+```
+
+**macOS (Intel)**:
+```bash
+curl -LO https://github.com/debelio/kc/releases/latest/download/kc-darwin-amd64
+chmod +x kc-darwin-amd64
+sudo mv kc-darwin-amd64 /usr/local/bin/kc
+```
+
 ### Prerequisites
 
 - Go 1.19 or higher (for building from source)

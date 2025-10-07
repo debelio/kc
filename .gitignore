@@ -1,3 +1,6 @@
+# GitHub Actions
+!workflows/
+
 # Devbox cache
 .devbox/
 
